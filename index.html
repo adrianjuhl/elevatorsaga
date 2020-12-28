@@ -103,6 +103,17 @@
     <script type="text/javascript" id="my_implementation">
 {
   init: function(elevators, floors) {
+    elevators.helperObj = new Object();
+    elevators.helperObj.functions = new Object();
+    elevators.helperObj.data = new Object();
+    var myFunctions = elevators.helperObj.functions;
+    var myData = elevators.helperObj.data;
+
+    myFunctions.logSystemState = function() {
+      console.log("==== SYSTEM DATA START - " + new Date().toString() + " ====");
+      console.log("==== SYSTEM DATA END ====");
+    }
+
     var elevator = elevators[0]; // Let's use the first elevator
 
     // Whenever the elevator is idle (has no more queued destinations) ...
@@ -113,7 +124,7 @@
     });
   },
   update: function(dt, elevators, floors) {
-    // We normally don't need to do anything here
+    elevators.helperObj.functions.logSystemState();
   }
 }
     </script>
