@@ -217,6 +217,19 @@
   },
   update: function(dt, elevators, floors) {
     elevators.helperObj.functions.logSystemState();
+    var elevator = elevators[0]; // Let's use the first elevator
+    if(elevator.currentFloor() < 1) {
+      if(elevator.destinationDirection() === "down") {
+        elevator.goingUpIndicator(true);
+        elevator.goingDownIndicator(false);
+      }
+    }
+    if(elevator.currentFloor() > floors.length-2) {
+      if(elevator.destinationDirection() === "up") {
+        elevator.goingUpIndicator(false);
+        elevator.goingDownIndicator(true);
+      }
+    }
   }
 }
     </script>
