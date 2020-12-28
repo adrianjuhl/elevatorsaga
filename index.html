@@ -158,10 +158,60 @@
 
     var elevator = elevators[0]; // Let's use the first elevator
 
-    // Whenever the elevator is idle (has no more queued destinations) ...
+    elevator.goingUpIndicator(true);
+    elevator.goingDownIndicator(false);
     elevator.on("idle", function() {
-      for(var floorIndex = 0; floorIndex < floors.length; floorIndex++) {
-        elevator.goToFloor(floorIndex);
+      if(elevator.getPressedFloors().length > 0) {
+        var nextFloor = elevator.getPressedFloors().shift();
+        if(nextFloor > elevator.currentFloor()) {
+          if(!elevator.goingUpIndicator()) {
+            elevator.goingUpIndicator(true);
+            elevator.goingDownIndicator(false);
+            if(floors[elevator.currentFloor()].isUpActivated()) {
+              elevator.goToFloor(elevator.currentFloor());
+            }
+          }
+        } else {
+          if(!elevator.goingDownIndicator()) {
+            elevator.goingUpIndicator(false);
+            elevator.goingDownIndicator(true);
+            if(floors[elevator.currentFloor()].isDownActivated()) {
+              elevator.goToFloor(elevator.currentFloor());
+            }
+          }
+        }
+        elevator.goToFloor(nextFloor);
+      } else {
+        if(elevator.currentFloor() > 0) {
+          if(!elevator.goingDownIndicator()) {
+            elevator.goingUpIndicator(false);
+            elevator.goingDownIndicator(true);
+            if(floors[elevator.currentFloor()].isDownActivated()) {
+              elevator.goToFloor(elevator.currentFloor());
+            }
+          }
+        } else {
+          if(!elevator.goingUpIndicator()) {
+            elevator.goingUpIndicator(true);
+            elevator.goingDownIndicator(false);
+            if(floors[elevator.currentFloor()].isUpActivated()) {
+              elevator.goToFloor(elevator.currentFloor());
+            }
+          }
+        }
+        elevator.goToFloor(0);
+      }
+    });
+    elevator.on("passing_floor", function(floorNum, direction) {
+      console.log(">>> event: passing_floor - elevator: " + elevator.getIndex() + " - floorNum: " + floorNum + " - direction: " + direction);
+      if(direction === "up") {
+        if(floors[floorNum].isUpActivated()) {
+          elevator.goToFloor(floorNum, true);
+        }
+      } else {
+        if(floors[floorNum].isDownActivated()) {
+          elevator.goToFloor(floorNum, true);
+        }
       }
     });
   },
