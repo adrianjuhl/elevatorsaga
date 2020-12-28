@@ -109,6 +109,17 @@
     var myFunctions = elevators.helperObj.functions;
     var myData = elevators.helperObj.data;
 
+    // Additional elevator functions:
+    //   getIndex()
+    for(var i = 0; i < elevators.length; i++) {
+      (function(index) {
+        var elevator = elevators[index];
+        elevator.getIndex = function() {
+          return index;
+        };
+      })(i);
+    }
+
     // Additional floor functions:
     //   isUpActivated()
     //   isDownActivated()
