@@ -74,6 +74,11 @@ var createEditor = function() {
         cm.focus();
     });
 
+    $("#button_load_my_implementation").click(function() {
+        cm.setValue($("#my_implementation").text().trim());
+        cm.focus();
+    });
+
     var returnObj = riot.observable({});
     var autoSaver = _.debounce(saveCode, 1000);
     cm.on("change", function() {
