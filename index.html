@@ -109,9 +109,40 @@
     var myFunctions = elevators.helperObj.functions;
     var myData = elevators.helperObj.data;
 
+    // Additional floor functions:
+    //   isUpActivated()
+    //   isDownActivated()
+    for(var i = 0; i < floors.length; i++) {
+      (function(index) {
+        var floor = floors[index];
+        floor.isUpActivated = function() {
+          return this.buttonStates.up == 'activated';
+        };
+        floor.isDownActivated = function() {
+          return this.buttonStates.down == 'activated';
+        };
+      })(i);
+    }
+
     myFunctions.logSystemState = function() {
       console.log("==== SYSTEM DATA START - " + new Date().toString() + " ====");
+      console.log(myFunctions.getActivatedFloorButtonsLogMessage());
       console.log("==== SYSTEM DATA END ====");
+    }
+
+    myFunctions.getActivatedFloorButtonsLogMessage = function() {
+      var activatedFloorUpButtonsInfo = "";
+      var activatedFloorDownButtonsInfo = "";
+      for(var i = 0; i < floors.length; i++) {
+        var floor = floors[i];
+        if(floor.isUpActivated()) {
+          activatedFloorUpButtonsInfo = activatedFloorUpButtonsInfo + " " + i;
+        }
+        if(floor.isDownActivated()) {
+          activatedFloorDownButtonsInfo = activatedFloorDownButtonsInfo + " " + i;
+        }
+      }
+      return "Activated Floor Buttons:    Up: [" + activatedFloorUpButtonsInfo + " ]    Down: [" + activatedFloorDownButtonsInfo + " ]";
     }
 
     var elevator = elevators[0]; // Let's use the first elevator
