@@ -107,9 +107,9 @@
 
     // Whenever the elevator is idle (has no more queued destinations) ...
     elevator.on("idle", function() {
-      elevator.goToFloor(0);
-      elevator.goToFloor(1);
-      elevator.goToFloor(2);
+      for(var floorIndex = 0; floorIndex < floors.length; floorIndex++) {
+        elevator.goToFloor(floorIndex);
+      }
     });
   },
   update: function(dt, elevators, floors) {
