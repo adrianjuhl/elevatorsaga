@@ -199,6 +199,8 @@
                   }
                   if(floors[floorIndex].isDownActivated()) {
                     elevator.goToFloor(floorIndex);
+                    elevator.goingUpIndicator(false);
+                    elevator.goingDownIndicator(true);
                     break;
                   }
                 }
