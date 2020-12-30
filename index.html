@@ -216,14 +216,18 @@
           }
         });
         elevator.on("passing_floor", function(floorNum, direction) {
-          console.log(">>> event: passing_floor - elevator: " + elevator.getIndex() + " - floorNum: " + floorNum + " - direction: " + direction);
+          console.log(">>> event: passing_floor - elevator: " + elevator.getIndex() + " - floorNum: " + floorNum + " - direction: " + direction + " loadFactor: " + elevator.loadFactor());
           if(direction === "up") {
             if(floors[floorNum].isUpActivated()) {
-              elevator.goToFloor(floorNum, true);
+              if(elevator.loadFactor() < 0.5) {
+                elevator.goToFloor(floorNum, true);
+              }
             }
           } else {
             if(floors[floorNum].isDownActivated()) {
-              elevator.goToFloor(floorNum, true);
+              if(elevator.loadFactor() < 0.5) {
+                elevator.goToFloor(floorNum, true);
+              }
             }
           }
         });
