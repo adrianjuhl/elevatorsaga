@@ -204,8 +204,7 @@
                     break;
                   }
                 }
-              }
-              if(!elevator.goingUpIndicator()) {
+              } else {
                 elevator.goingUpIndicator(true);
                 elevator.goingDownIndicator(false);
                 if(floors[elevator.currentFloor()].isUpActivated()) {
